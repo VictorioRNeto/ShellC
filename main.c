@@ -69,10 +69,12 @@ int main()
             if(waitpid(pid,&status,0) == -1){
                 perror("waitpid");
             }
+
             else{
                 if (WIFEXITED(status)) {
                     last_status = WEXITSTATUS(status);
                 }
+                
                 else if (WIFSIGNALED(status)) {
                     last_status = 128 + WTERMSIG(status);
                 }
