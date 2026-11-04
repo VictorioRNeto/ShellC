@@ -19,24 +19,27 @@ int main()
     
     
     while (1){
-        
-        
-        
-
+        //prompt
         printf("⚚ -> ");
         fflush(stdout);
-        bytes_read = getline(&line, &capacity, stdin);
         //apaga a merda do enter
+        bytes_read = getline(&line, &capacity, stdin);
+
+        //controle de finalização do shell
         if (bytes_read == -1) {
             break;
         }
         line[strcspn(line, "\n")] = '\0';
+        
         if(strcmp(line, "exit") == 0){
             break;
         }        
+        
         if(line[0] == '\0'){
             continue;
         }
+        
+        //controle de leitura de argumentos
         char *args[64];
         char *tolken = strtok(line, " ");
 
@@ -46,22 +49,23 @@ int main()
             tolken = strtok(NULL, " ");
         }
 
-
         args[i] = NULL;
+        
         if(args[0] == NULL){
             continue;
         }
+        
         pid_t pid = fork();
+        
         //Gerenciador de processos
         if(pid == 0){
             execvp(args[0], args);
-
             perror("execvp");
             _exit(127);
-            
         }
 
         else if(pid > 0){
+            //controle de timing e erros
             if(waitpid(pid,&status,0) == -1){
                 perror("waitpid");
             }
@@ -79,15 +83,9 @@ int main()
         else{
             perror("fork");
         }
-    
-    
-    
-        
     }
-    
-    //printf("PID: %d\n", getpid());
-    //printf("Retorno do fork: %d\n", pid);
 
+    //fim do codigo e liberação de memoria
     free(line);
     return 0;
 }
