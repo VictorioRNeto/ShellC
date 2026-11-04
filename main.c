@@ -14,10 +14,10 @@ int main()
     ssize_t bytes_read;
     int status;
     int last_status = 0;
-    //
+    //---------------
     
     
-    
+    //iniciando o loop do shell
     while (1){
         //prompt
         printf("⚚ -> ");
@@ -77,8 +77,6 @@ int main()
                     last_status = 128 + WTERMSIG(status);
                 }
             }
-
-
         }
         else{
             perror("fork");
